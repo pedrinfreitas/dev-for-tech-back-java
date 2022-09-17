@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: authorization
+
+security:
+  jwt:
+    token:
+      secret-key: ZGV2Zm9ydGVjaA==
+      expire-length: 60480000

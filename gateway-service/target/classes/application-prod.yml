@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: gateway
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: https://devfortech-school-discovery.azuremicroservices.io/eureka
+    fetch-registry: true
+  instance:
+    hostname: devfortech-school-${spring.application.name}.azuremicroservices.io
+    instance-id: ${eureka.instance.hostname}:${spring.application.name}
+
+app:
+  authorization:
+    url: https://devfortech-school-authorization-service.azuremicroservices.io
