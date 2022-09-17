@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .headers().frameOptions().sameOrigin()
                 .and()
                     .authorizeRequests()
-                        .antMatchers("/auth/**", "/api/user/checkUsernameAvailability")
+                        .antMatchers("/login", "/signup", "/api/user/checkUsernameAvailability")
                             .permitAll()
                         .antMatchers("/h2-console/**")
                             .permitAll()
