@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Escola Pequenos Gênios  
+  title: Escola Pequenos Gênios
   description: |-
     Plataforma de gerenciamento da Escola primária Pequenos Gênios que atua no auxílio da formação das turmas, no cadastro de informações dos alunos e Professores.
     A plataforma é gerenciada por um perfil que tem permissões para cadastrar, atualizar e deletar dados de alunos, professores e turmas da respectiva escola.
@@ -13,7 +13,7 @@ info:
     - [Acate](https://www.acate.com.br/)
   termsOfService: http://swagger.io/terms/
   contact:
-    email: apiteam@swagger.io 
+    email: apiteam@swagger.io
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -35,7 +35,7 @@ paths:
     get:
       tags:
         - Estudantes
-      summary: Lista de estudantes 
+      summary: Lista de estudantes
       description: Retorna uma lista de estudantes cadastrados.
       responses:
         '200':
@@ -45,7 +45,18 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Estudante'          
+                  $ref: '#/components/schemas/Estudante'
+              example:
+                id: 1
+                name: "João Paulo"
+                phoneNumber: "41985356894"
+                fees: 2500.5
+                emailAddress: "examplo@email.com"
+                street: "Rua Marechal Deodoro"
+                city: "São Paulo"
+                country: "Brasil"
+                postalCode: "83370-000"
+                state: "São Paulo"
         '400':
           description: Bad Request
         '401':
@@ -53,26 +64,28 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: Not Found
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
         '500':
           description: Internal Server Error
     post:
       tags:
         - Estudantes
       summary: Cadastra um estudante
-      description: Cadastra informações de um estudante. 
+      description: Cadastra informações de um estudante.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EstudantePostRequest'
+              $ref: '#/components/schemas/EstudanteRequestRequiredFields'
       responses:
         '200':
           description: ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Estudante'          
+                $ref: '#/components/schemas/Estudante'
         '400':
           description: Bad Request
         '401':
@@ -98,11 +111,11 @@ paths:
             type: integer
             format: int64
       requestBody:
-        description: "Dados a serem atualizados no cadastro do estudante" 
+        description: "Dados a serem atualizados no cadastro do estudante"
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EstudantePutRequest'
+              $ref: '#/components/schemas/EstudanteRequest'
         required: true
       responses:
         '200':
@@ -110,7 +123,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Estudante'          
+                $ref: '#/components/schemas/Estudante'
         '400':
           description: Bad Request
         '401':
@@ -124,7 +137,7 @@ paths:
     delete:
       tags:
         - Estudantes
-      summary: Exclui um estudante 
+      summary: Exclui um estudante
       description: "Exclui informações do cadastro do estudante utilizando o Id do estudante para referenciá-lo e exlui-lo"
       parameters:
         - name: id
@@ -136,7 +149,7 @@ paths:
             format: int64
       responses:
         '204':
-          description: No Content   
+          description: No Content
         '400':
           description: Bad Request
         '401':
@@ -151,7 +164,7 @@ paths:
     get:
       tags:
         - Professores
-      summary: Lista de professores 
+      summary: Lista de professores
       description: Retorna uma lista de professores cadastrados.
       responses:
         '200':
@@ -161,7 +174,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Professor'          
+                  $ref: '#/components/schemas/Professor'
         '400':
           description: Bad Request
         '401':
@@ -176,19 +189,19 @@ paths:
       tags:
         - Professores
       summary: Cadastra um Professor
-      description: Cadastra informações de um Professor. 
+      description: Cadastra informações de um Professor.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProfessorPostRequest'
+              $ref: '#/components/schemas/ProfessorRequestRequiredFields'
       responses:
         '200':
           description: ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Professor'          
+                $ref: '#/components/schemas/Professor'
         '400':
           description: Bad Request
         '401':
@@ -214,11 +227,11 @@ paths:
             type: integer
             format: int64
       requestBody:
-        description: "Dados a serem atualizados no cadastro do Professor" 
+        description: "Dados a serem atualizados no cadastro do Professor"
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProfessorPutRequest'
+              $ref: '#/components/schemas/ProfessorRequest'
         required: true
       responses:
         '200':
@@ -226,7 +239,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Professor'          
+                $ref: '#/components/schemas/Professor'
         '400':
           description: Bad Request
         '401':
@@ -240,7 +253,7 @@ paths:
     delete:
       tags:
         - Professores
-      summary: Exclui um Professor 
+      summary: Exclui um Professor
       description: "Exclui informações do cadastro do Professor utilizando o Id do Professor para referenciá-lo e exlui-lo"
       parameters:
         - name: id
@@ -252,7 +265,7 @@ paths:
             format: int64
       responses:
         '204':
-          description: No Content   
+          description: No Content
         '400':
           description: Bad Request
         '401':
@@ -277,7 +290,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Classe'          
+                  $ref: '#/components/schemas/Classe'
         '400':
           description: Bad Request
         '401':
@@ -297,14 +310,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ClassePostRequest'
+              $ref: '#/components/schemas/ClasseRequestRequiredFields'
       responses:
         '200':
           description: ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Classe'  
+                $ref: '#/components/schemas/Classe'
         '400':
           description: Bad Request
         '401':
@@ -330,11 +343,11 @@ paths:
             type: integer
             format: int64
       requestBody:
-        description: "Dados a serem atualizados no cadastro do Classe" 
+        description: "Dados a serem atualizados no cadastro do Classe"
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ClassePutRequest'
+              $ref: '#/components/schemas/ClasseRequest'
         required: true
       responses:
         '200':
@@ -342,7 +355,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Classe'     
+                $ref: '#/components/schemas/Classe'
         '400':
           description: Bad Request
         '401':
@@ -382,182 +395,77 @@ paths:
 components:
   schemas:
     Estudante:
-      type: object
-      properties: 
+      allOf:
+        - $ref: '#/components/schemas/EstudanteRequest'
+      properties:
         id:
           type: number
           example: 1
-        name:
-          type: string
-          example: "João Paulo"
-        phoneNumber:
-          type: string
-          example: "41985356894"
-        fees:
-          type: number
-          example: 2500.50
-        emailAddress:
-          type: string
-          example: "examplo@email.com"
-        street: 
-          type: string
-          example: "Rua Marechal Deodoro"
-        city:
-          type: string
-          example: "São Paulo"
-        country:
-          type: string
-          example: "Brasil"
-        postalCode:
-          type: string
-          example: "83370-000"
-        state:
-          type: string
-          example: "São Paulo"
-    EstudantePostRequest:
-      type: object
-      required:
-        - name
-        - phoneNumber
-        - fees
-        - emailAddress
-        - street
-        - city
-        - country
-        - postalCode
-        - state
-      properties: 
-        name:
-          type: string
-          example: "João Paulo"
-        phoneNumber:
-          type: string
-          example: "41985356894"
-        fees:
-          type: number
-          example: 2500.50
-        emailAddress:
-          type: string
-          example: "examplo@email.com"
-        street: 
-          type: string
-          example: "Rua Marechal Deodoro"
-        city:
-          type: string
-          example: "São Paulo"
-        country:
-          type: string
-          example: "Brasil"
-        postalCode:
-          type: string
-          example: "83370-000"
-        state:
-          type: string
-          example: "São Paulo"
-    EstudantePutRequest:
-      type: object
-      properties: 
-        name:
-          type: string
-          example: "João Paulo"
-        phoneNumber:
-          type: string
-          example: "41985356894"
-        fees:
-          type: number
-          example: 2500.50
-        emailAddress:
-          type: string
-          example: "examplo@email.com"
-        street: 
-          type: string
-          example: "Rua Marechal Deodoro"
-        city:
-          type: string
-          example: "São Paulo"
-        country:
-          type: string
-          example: "Brasil"
-        postalCode:
-          type: string
-          example: "83370-000"
-        state:
-          type: string
-          example: "São Paulo"
-    Professor:
+    EstudanteRequest:
       type: object
       properties:
-        id: 
+        name:
+          type: string
+          example: "João Paulo"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        fees:
+          type: number
+          example: 2500.50
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        street:
+          type: string
+          example: "Rua Marechal Deodoro"
+        city:
+          type: string
+          example: "São Paulo"
+        country:
+          type: string
+          example: "Brasil"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
+    EstudanteRequestRequiredFields:
+      allOf:
+        - $ref: '#/components/schemas/EstudanteRequest'
+        - required:
+            - name
+            - phoneNumber
+            - fees
+            - emailAddress
+            - street
+            - city
+            - country
+            - postalCode
+            - state
+    Professor:
+      allOf:
+        - $ref: '#/components/schemas/ProfessorRequest'
+      type: object
+      properties:
+        id:
           type: string
           example: 5
-        name:
-          type: string
-          example: "Pedro de Assis"
-        phoneNumber:
-          type: string
-          example: "41985356894"
-        emailAddress:
-          type: string
-          example: "examplo@email.com"
-        salary:
-          type: number
-          example: 5380.80
-        country:
-          type: string
-          example: "Brasil"
-        city:
-          type: string
-          example: "São Paulo"
-        street: 
-          type: string
-          example: "Rua Marechal Deodoro"
-        postalCode:
-          type: string
-          example: "83370-000"
-        state:
-          type: string
-          example: "São Paulo"
-    ProfessorPostRequest:
-      type: object
-      required:
-        - name
-        - phoneNumber
-        - emailAddress
-        - salary
-        - country
-        - city
-        - street
-        - postalCode
-        - state 
-      properties:
-        name:
-          type: string
-          example: "Pedro de Assis"
-        phoneNumber:
-          type: string
-          example: "41985356894"
-        emailAddress:
-          type: string
-          example: "examplo@email.com"
-        salary:
-          type: number
-          example: 6700.20
-        country:
-          type: string
-          example: "Brasil"
-        city:
-          type: string
-          example: "São Paulo"
-        street: 
-          type: string
-          example: "Rua Marechal Deodoro"
-        postalCode:
-          type: string
-          example: "83370-000"
-        state:
-          type: string
-          example: "São Paulo"
-    ProfessorPutRequest:
+    ProfessorRequestRequiredFields:
+      allOf:
+        - $ref: '#/components/schemas/ProfessorRequest'
+        - required:
+            - name
+            - phoneNumber
+            - emailAddress
+            - salary
+            - country
+            - city
+            - street
+            - postalCode
+            - state
+    ProfessorRequest:
       type: object
       properties:
         name:
@@ -578,7 +486,7 @@ components:
         city:
           type: string
           example: "São Paulo"
-        street: 
+        street:
           type: string
           example: "Rua Marechal Deodoro"
         postalCode:
@@ -588,28 +496,21 @@ components:
           type: string
           example: "São Paulo"
     Classe:
-      type: object
+      allOf:
+        - $ref: '#/components/schemas/ClasseRequest'
       properties:
-        id: 
+        id:
           type: number
           example: 1
-        grade:
-          type: string
-          example: "Caligrafia, Coordenação motora, Desenho, dança"
-        id_professor:
-          type: number
-          example: 3
-        id_estudantes:
-          type: array
-          example: 
-            - 1
-            - 5
-    ClassePostRequest:
+    ClasseRequestRequiredFields:
+      allOf:
+        - $ref: '#/components/schemas/ClasseRequest'
+        - required:
+            - grade
+            - id_professor
+            - id_estudantes
+    ClasseRequest:
       type: object
-      required:
-        - grade
-        - id_professor
-        - id_estudantes
       properties:
         grade:
           type: string
@@ -619,26 +520,66 @@ components:
           example: 3
         id_estudantes:
           type: array
-          example: 
-            - 1
-            - 5
-    ClassePutRequest:
+          items:
+            example:
+              - 1
+              - 5
+    error:
+      description: Objecto retornado quando um erro ocorre (4xx/5xx)
       type: object
-      required:
-        - grade
-        - id_professor
-        - id_estudantes
       properties:
-        grade:
+        timestamp:
           type: string
-          example: "Caligrafia, Coordenação motora, Desenho, dança"
-        id_professor:
+          format: date-time
+          description: "Timestamp"
+        status:
           type: number
-          example: 3
-        id_estudantes:
-          type: array
-          example: 
-            - 1
-            - 5
-  
+          description: "Http status code"
+        error:
+          type: string
+          description: "Http message"
+        trace:
+          type: string
+          description: "Exception's trace"
+        exception:
+          type: string
+          description: "Exception that occurred"
+        message:
+          type: string
+          description: "Error message"
+        path:
+          type: string
+          description: "Path"
+  responses:
+    '404':
+      description: "Not Found"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            timestamp: "2022-09-18T02:52:21.911+00:00"
+            status: 404
+            error: "Not Found"
+            message: "No message available"
+            path: "/"
+    '405':
+      description: "Method Not Allowed"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            timestamp: "2022-09-18T02:21:51.237+00:00"
+            status: 405
+            error: "Method Not Allowed"
+            trace: "org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported"
+            message: "Request method 'GET' not supported"
+            path: "/estudantes/t"
+
+
+
+
+
+
   
