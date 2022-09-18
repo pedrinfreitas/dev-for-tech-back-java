@@ -1,0 +1,644 @@
+openapi: 3.0.3
+info:
+  title: Escola Pequenos Gênios  
+  description: |-
+    Plataforma de gerenciamento da Escola primária Pequenos Gênios que atua no auxílio da formação das turmas, no cadastro de informações dos alunos e Professores.
+    A plataforma é gerenciada por um perfil que tem permissões para cadastrar, atualizar e deletar dados de alunos, professores e turmas da respectiva escola.
+    Há também um perfil de usúario para a visualização dos dados.
+    
+    A criação dessa plataforma é proposto pela programa DevForTech, que visa a aceleração de profissionais de tecnologia. Programa realizado pela parceria GamaAcademy + Acate 
+    
+    - [DevForTech](https://devfortech.corporate.gama.academy/)
+    - [GamaAcademy](https://www.gama.academy/?&utm_source=google&utm_medium=paid-search&utm_campaign=brand-awareness&utm_term=gama-academy&gclid=CjwKCAjw4JWZBhApEiwAtJUN0BpmUIgxNizn7IZnIXZtBp_-lM7G6TnMb3IAtrpQkZnI0YaiJEifshoCVJsQAvD_BwE)
+    - [Acate](https://www.acate.com.br/)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io 
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://devfortech/api/v1
+tags:
+  - name: Estudantes
+    description: Informações de cadastro de estudantes
+  - name: Professores
+    description: Informações de cadastro de Professores
+  - name: Classes
+    description: Informações de cadastro de classes
+paths:
+  /estudantes:
+    get:
+      tags:
+        - Estudantes
+      summary: Lista de estudantes 
+      description: Retorna uma lista de estudantes cadastrados.
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Estudante'          
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - Estudantes
+      summary: Cadastra um estudante
+      description: Cadastra informações de um estudante. 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstudantePostRequest'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estudante'          
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /estudantes/{id}:
+    put:
+      tags:
+        - Estudantes
+      summary: Atualiza um estudante
+      description: "Atualiza informações no cadastro do estudante utilizando o Id do estudante para referenciá-lo e atualizar as informações"
+      parameters:
+        - name: id
+          in: path
+          description: "Número de identificação do estudante"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: "Dados a serem atualizados no cadastro do estudante" 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstudantePutRequest'
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Estudante'          
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Estudantes
+      summary: Exclui um estudante 
+      description: "Exclui informações do cadastro do estudante utilizando o Id do estudante para referenciá-lo e exlui-lo"
+      parameters:
+        - name: id
+          in: path
+          description: "Número de identificação do estudante"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content   
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /professores:
+    get:
+      tags:
+        - Professores
+      summary: Lista de professores 
+      description: Retorna uma lista de professores cadastrados.
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Professor'          
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - Professores
+      summary: Cadastra um Professor
+      description: Cadastra informações de um Professor. 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfessorPostRequest'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professor'          
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /professores/{id}:
+    put:
+      tags:
+        - Professores
+      summary: Atualiza um Professor
+      description: "Atualiza informações no cadastro do Professor utilizando o Id do Professor para referenciá-lo e atualizar as informações"
+      parameters:
+        - name: id
+          in: path
+          description: "Número de identificação do Professor"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: "Dados a serem atualizados no cadastro do Professor" 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfessorPutRequest'
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professor'          
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Professores
+      summary: Exclui um Professor 
+      description: "Exclui informações do cadastro do Professor utilizando o Id do Professor para referenciá-lo e exlui-lo"
+      parameters:
+        - name: id
+          in: path
+          description: "Número de identificação do Professor"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content   
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /classes:
+    get:
+      tags:
+        - Classes
+      summary: Lista de classes
+      description: Retorna uma listas com todas as classes cadastradas contendo informações do Professor responsável pela Classes e de todos os alunos cadastrados na classe
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Classe'          
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - Classes
+      summary: Cadastra uma classe
+      description: Cria uma classe usando um Id do Professor e Id dos estudantes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassePostRequest'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classe'  
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /classes/{id}:
+    put:
+      tags:
+        - Classes
+      summary: Atualiza uma classe
+      description: Atualiza os dados de uma classe utilizando o Id para referência-la
+      parameters:
+        - name: id
+          in: path
+          description: Id da classe a ser atualizada
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: "Dados a serem atualizados no cadastro do Classe" 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassePutRequest'
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classe'     
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Classes
+      summary: Exclui uma classe
+      description: Exclui uma classe existente
+      parameters:
+        - name: id
+          in: path
+          description: Id da classe a ser excluída
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    Estudante:
+      type: object
+      properties: 
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: "João Paulo"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        fees:
+          type: number
+          example: 2500.50
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        street: 
+          type: string
+          example: "Rua Marechal Deodoro"
+        city:
+          type: string
+          example: "São Paulo"
+        country:
+          type: string
+          example: "Brasil"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
+    EstudantePostRequest:
+      type: object
+      required:
+        - name
+        - phoneNumber
+        - fees
+        - emailAddress
+        - street
+        - city
+        - country
+        - postalCode
+        - state
+      properties: 
+        name:
+          type: string
+          example: "João Paulo"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        fees:
+          type: number
+          example: 2500.50
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        street: 
+          type: string
+          example: "Rua Marechal Deodoro"
+        city:
+          type: string
+          example: "São Paulo"
+        country:
+          type: string
+          example: "Brasil"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
+    EstudantePutRequest:
+      type: object
+      properties: 
+        name:
+          type: string
+          example: "João Paulo"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        fees:
+          type: number
+          example: 2500.50
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        street: 
+          type: string
+          example: "Rua Marechal Deodoro"
+        city:
+          type: string
+          example: "São Paulo"
+        country:
+          type: string
+          example: "Brasil"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
+    Professor:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: 5
+        name:
+          type: string
+          example: "Pedro de Assis"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        salary:
+          type: number
+          example: 5380.80
+        country:
+          type: string
+          example: "Brasil"
+        city:
+          type: string
+          example: "São Paulo"
+        street: 
+          type: string
+          example: "Rua Marechal Deodoro"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
+    ProfessorPostRequest:
+      type: object
+      required:
+        - name
+        - phoneNumber
+        - emailAddress
+        - salary
+        - country
+        - city
+        - street
+        - postalCode
+        - state 
+      properties:
+        name:
+          type: string
+          example: "Pedro de Assis"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        salary:
+          type: number
+          example: 6700.20
+        country:
+          type: string
+          example: "Brasil"
+        city:
+          type: string
+          example: "São Paulo"
+        street: 
+          type: string
+          example: "Rua Marechal Deodoro"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
+    ProfessorPutRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Pedro de Assis"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        salary:
+          type: number
+          example: 6700.20
+        country:
+          type: string
+          example: "Brasil"
+        city:
+          type: string
+          example: "São Paulo"
+        street: 
+          type: string
+          example: "Rua Marechal Deodoro"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
+    Classe:
+      type: object
+      properties:
+        id: 
+          type: number
+          example: 1
+        grade:
+          type: string
+          example: "Caligrafia, Coordenação motora, Desenho, dança"
+        id_professor:
+          type: number
+          example: 3
+        id_estudantes:
+          type: array
+          example: 
+            - 1
+            - 5
+    ClassePostRequest:
+      type: object
+      required:
+        - grade
+        - id_professor
+        - id_estudantes
+      properties:
+        grade:
+          type: string
+          example: "Caligrafia, Coordenação motora, Desenho, dança"
+        id_professor:
+          type: number
+          example: 3
+        id_estudantes:
+          type: array
+          example: 
+            - 1
+            - 5
+    ClassePutRequest:
+      type: object
+      required:
+        - grade
+        - id_professor
+        - id_estudantes
+      properties:
+        grade:
+          type: string
+          example: "Caligrafia, Coordenação motora, Desenho, dança"
+        id_professor:
+          type: number
+          example: 3
+        id_estudantes:
+          type: array
+          example: 
+            - 1
+            - 5
+  
+  
