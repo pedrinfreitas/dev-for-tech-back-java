@@ -2,27 +2,31 @@ server:
   port: 8100
 
 spring:
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: admin
-    password: admin
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  main:
+    allow-circular-references: true
 
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: create
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
 
   jmx:
     enabled: false
 
   datasource:
-    url: jdbc:mysql://localhost:3306/email-service?useSSL=true&serverTimezone=UTC
-    username: sa
-    password: 9202157
+      url: jdbc:h2:mem:testdb
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
 
   mail:
     host: smtp-relay.sendinblue.com
@@ -30,6 +34,13 @@ spring:
     username: devfortechschool@gmail.com
     password: dMUE296stOwVBxKn
     protocol: smtp
+
+  rabbitmq:
+    host: 15.228.251.248
+    port: 5672
+    username: user
+    password: TVhuUhi2Kkoe
+
 
 eureka:
   client:
@@ -39,12 +50,7 @@ eureka:
   instance:
     hostname: localhost
 
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-
+# config rabbitMQ
 email:
   rabbitmq:
     exchange: email.exchange

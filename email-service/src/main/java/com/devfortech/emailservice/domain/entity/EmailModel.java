@@ -17,11 +17,11 @@ public class EmailModel implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String ownerRef;
+    private String emailFrom;
     private String emailTo;
     private String subject;
     @Column(columnDefinition = "TEXT")
     private String text;
     private LocalDateTime sendDateEmail;
     private StatusEnvio statusEnvio;
-
 }
