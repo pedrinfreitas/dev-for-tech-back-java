@@ -89,6 +89,9 @@
 							<modelPackage>com.devfortech.models</modelPackage>
 							<configOptions>
 								<interfaceOnly>true</interfaceOnly>
+								<dateLibrary>Java11</dateLibrary>
+								<java8>false</java8>
+								<javaVersion>${java.version}</javaVersion>
 							</configOptions>
 						</configuration>
 					</execution>

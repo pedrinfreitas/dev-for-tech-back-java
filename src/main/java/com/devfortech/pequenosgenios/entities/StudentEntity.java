@@ -1,9 +1,11 @@
 package com.devfortech.pequenosgenios.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+
+
 
 
 @Data
@@ -37,7 +39,7 @@ public class StudentEntity {
     private String country;
 
     @Column(nullable = false)
-    private long postalCode;
+    private String postalCode;
 
     @Column(nullable = false)
     private String state;

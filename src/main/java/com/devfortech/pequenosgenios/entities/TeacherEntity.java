@@ -1,6 +1,6 @@
 package com.devfortech.pequenosgenios.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -36,7 +36,7 @@ public class TeacherEntity {
     private String street;
 
     @Column(nullable = false)
-    private long postalCode;
+    private String postalCode;
 
     @Column(nullable = false)
     private String state;

@@ -78,7 +78,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EstudanteRequestRequiredFields'
+              $ref: '#/components/schemas/EstudanteRequest'
       responses:
         '200':
           description: ok
@@ -132,6 +132,8 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+        '405':
+          $ref: '#/components/responses/405'
         '500':
           description: Internal Server Error
     delete:
@@ -194,7 +196,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProfessorRequestRequiredFields'
+              $ref: '#/components/schemas/ProfessorRequest'
       responses:
         '200':
           description: ok
@@ -310,7 +312,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ClasseRequestRequiredFields'
+              $ref: '#/components/schemas/ClasseRequest'
       responses:
         '200':
           description: ok
@@ -395,14 +397,62 @@ paths:
 components:
   schemas:
     Estudante:
-      allOf:
-        - $ref: '#/components/schemas/EstudanteRequest'
+      type: object
+      required:
+        - required
+        - name
+        - phoneNumber
+        - fees
+        - emailAddress
+        - street
+        - city
+        - country
+        - postalCode
+        - state
       properties:
         id:
-          type: number
+          type: integer
+          format: int64
           example: 1
+        name:
+          type: string
+          example: "João Paulo"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        fees:
+          type: number
+          example: 2500.50
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        street:
+          type: string
+          example: "Rua Marechal Deodoro"
+        city:
+          type: string
+          example: "São Paulo"
+        country:
+          type: string
+          example: "Brasil"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
     EstudanteRequest:
       type: object
+      required:
+        - name
+        - phoneNumber
+        - fees
+        - emailAddress
+        - street
+        - city
+        - country
+        - postalCode
+        - state
       properties:
         name:
           type: string
@@ -431,42 +481,63 @@ components:
         state:
           type: string
           example: "São Paulo"
-    EstudanteRequestRequiredFields:
-      allOf:
-        - $ref: '#/components/schemas/EstudanteRequest'
-        - required:
-            - name
-            - phoneNumber
-            - fees
-            - emailAddress
-            - street
-            - city
-            - country
-            - postalCode
-            - state
     Professor:
-      allOf:
-        - $ref: '#/components/schemas/ProfessorRequest'
       type: object
+      required:
+        - id
+        - name
+        - phoneNumber
+        - emailAddress
+        - salary
+        - country
+        - city
+        - street
+        - postalCode
+        - state
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
           example: 5
-    ProfessorRequestRequiredFields:
-      allOf:
-        - $ref: '#/components/schemas/ProfessorRequest'
-        - required:
-            - name
-            - phoneNumber
-            - emailAddress
-            - salary
-            - country
-            - city
-            - street
-            - postalCode
-            - state
+        name:
+          type: string
+          example: "Pedro de Assis"
+        phoneNumber:
+          type: string
+          example: "41985356894"
+        emailAddress:
+          type: string
+          example: "examplo@email.com"
+        salary:
+          type: number
+          example: 6700.20
+        country:
+          type: string
+          example: "Brasil"
+        city:
+          type: string
+          example: "São Paulo"
+        street:
+          type: string
+          example: "Rua Marechal Deodoro"
+        postalCode:
+          type: string
+          example: "83370-000"
+        state:
+          type: string
+          example: "São Paulo"
     ProfessorRequest:
       type: object
+      required:
+        - name
+        - phoneNumber
+        - emailAddress
+        - salary
+        - country
+        - city
+        - street
+        - postalCode
+        - state
       properties:
         name:
           type: string
@@ -496,27 +567,43 @@ components:
           type: string
           example: "São Paulo"
     Classe:
-      allOf:
-        - $ref: '#/components/schemas/ClasseRequest'
+      type: object
+      required:
+        - id
+        - grade
+        - id_professor
+        - id_estudantes
       properties:
         id:
-          type: number
+          type: integer
+          format: int64
           example: 1
-    ClasseRequestRequiredFields:
-      allOf:
-        - $ref: '#/components/schemas/ClasseRequest'
-        - required:
-            - grade
-            - id_professor
-            - id_estudantes
+        grade:
+          type: string
+          example: "Caligrafia, Coordenação motora, Desenho, dança"
+        id_professor:
+          type: integer
+          format: int64
+          example: 3
+        id_estudantes:
+          type: array
+          items:
+            example:
+              - 1
+              - 5
     ClasseRequest:
       type: object
+      required:
+        - grade
+        - id_professor
+        - id_estudantes
       properties:
         grade:
           type: string
           example: "Caligrafia, Coordenação motora, Desenho, dança"
         id_professor:
-          type: number
+          type: integer
+          format: int64
           example: 3
         id_estudantes:
           type: array
@@ -533,7 +620,7 @@ components:
           format: date-time
           description: "Timestamp"
         status:
-          type: number
+          type: integer
           description: "Http status code"
         error:
           type: string
@@ -582,4 +669,3 @@ components:
 
 
 
-  
