@@ -18,22 +18,22 @@ public class StudentController implements EstudantesApi {
     StudentService studentService;
 
     @Override
-    public ResponseEntity<List<Estudante>> estudantesGet() {
-        return ResponseEntity.status(HttpStatus.OK).body(studentService.findAll());
+    public ResponseEntity<Estudante> estudantesCreate(EstudanteRequest body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(studentService.save(body));
     }
 
     @Override
-    public ResponseEntity<Void> estudantesIdDelete(Long id) {
+    public ResponseEntity<Void> estudantesDelete(Long id) {
         return studentService.delete(id);
     }
 
     @Override
-    public ResponseEntity<Estudante> estudantesIdPut(EstudanteRequest body, Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(studentService.update(id,body));
+    public ResponseEntity<List<Estudante>> estudantesFindAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.findAll());
     }
 
     @Override
-    public ResponseEntity<Estudante> estudantesPost(EstudanteRequest body) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(studentService.save(body));
+    public ResponseEntity<Estudante> estudantesUpdate(EstudanteRequest body, Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.update(id,body));
     }
 }

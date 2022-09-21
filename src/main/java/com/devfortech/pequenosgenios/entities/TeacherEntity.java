@@ -3,12 +3,14 @@ package com.devfortech.pequenosgenios.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "tb_teacher")
-public class TeacherEntity {
+public class TeacherEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
@@ -40,5 +42,6 @@ public class TeacherEntity {
 
     @Column(nullable = false)
     private String state;
+
 
 }

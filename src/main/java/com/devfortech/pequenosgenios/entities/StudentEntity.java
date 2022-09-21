@@ -3,6 +3,7 @@ package com.devfortech.pequenosgenios.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 
@@ -10,8 +11,9 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "tb_student")
-public class StudentEntity {
+public class StudentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)

@@ -37,6 +37,7 @@ paths:
         - Estudantes
       summary: Lista de estudantes
       description: Retorna uma lista de estudantes cadastrados.
+      operationId: estudantesFindAll
       responses:
         '200':
           description: ok
@@ -74,6 +75,7 @@ paths:
         - Estudantes
       summary: Cadastra um estudante
       description: Cadastra informações de um estudante.
+      operationId: estudantesCreate
       requestBody:
         content:
           application/json:
@@ -102,6 +104,7 @@ paths:
         - Estudantes
       summary: Atualiza um estudante
       description: "Atualiza informações no cadastro do estudante utilizando o Id do estudante para referenciá-lo e atualizar as informações"
+      operationId: estudantesUpdate
       parameters:
         - name: id
           in: path
@@ -141,6 +144,7 @@ paths:
         - Estudantes
       summary: Exclui um estudante
       description: "Exclui informações do cadastro do estudante utilizando o Id do estudante para referenciá-lo e exlui-lo"
+      operationId: estudantesDelete
       parameters:
         - name: id
           in: path
@@ -168,6 +172,7 @@ paths:
         - Professores
       summary: Lista de professores
       description: Retorna uma lista de professores cadastrados.
+      operationId: professoresFindAll
       responses:
         '200':
           description: ok
@@ -192,6 +197,7 @@ paths:
         - Professores
       summary: Cadastra um Professor
       description: Cadastra informações de um Professor.
+      operationId: professoresCreate
       requestBody:
         content:
           application/json:
@@ -220,6 +226,7 @@ paths:
         - Professores
       summary: Atualiza um Professor
       description: "Atualiza informações no cadastro do Professor utilizando o Id do Professor para referenciá-lo e atualizar as informações"
+      operationId: professoresUpdate
       parameters:
         - name: id
           in: path
@@ -257,6 +264,7 @@ paths:
         - Professores
       summary: Exclui um Professor
       description: "Exclui informações do cadastro do Professor utilizando o Id do Professor para referenciá-lo e exlui-lo"
+      operationId: professoresDelete
       parameters:
         - name: id
           in: path
@@ -284,6 +292,7 @@ paths:
         - Classes
       summary: Lista de classes
       description: Retorna uma listas com todas as classes cadastradas contendo informações do Professor responsável pela Classes e de todos os alunos cadastrados na classe
+      operationId: classesFindAll
       responses:
         '200':
           description: ok
@@ -308,6 +317,7 @@ paths:
         - Classes
       summary: Cadastra uma classe
       description: Cria uma classe usando um Id do Professor e Id dos estudantes
+      operationId: classesCreate
       requestBody:
         content:
           application/json:
@@ -336,6 +346,7 @@ paths:
         - Classes
       summary: Atualiza uma classe
       description: Atualiza os dados de uma classe utilizando o Id para referência-la
+      operationId: classesUpdate
       parameters:
         - name: id
           in: path
@@ -373,6 +384,7 @@ paths:
         - Classes
       summary: Exclui uma classe
       description: Exclui uma classe existente
+      operationId: classesDelete
       parameters:
         - name: id
           in: path
@@ -582,15 +594,13 @@ components:
           type: string
           example: "Caligrafia, Coordenação motora, Desenho, dança"
         id_professor:
-          type: integer
-          format: int64
-          example: 3
+          allOf:
+            - $ref: '#/components/schemas/Professor'
         id_estudantes:
           type: array
           items:
-            example:
-              - 1
-              - 5
+            allOf:
+              - $ref: '#/components/schemas/Professor'
     ClasseRequest:
       type: object
       required:
@@ -608,9 +618,8 @@ components:
         id_estudantes:
           type: array
           items:
-            example:
-              - 1
-              - 5
+            type: integer
+            example: [1,5,8]
     error:
       description: Objecto retornado quando um erro ocorre (4xx/5xx)
       type: object

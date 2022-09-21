@@ -16,24 +16,23 @@ public class TeacherController implements ProfessoresApi {
 
     @Autowired
     TeacherService teacherService;
-
     @Override
-    public ResponseEntity<List<Professor>> professoresGet() {
-        return ResponseEntity.status(HttpStatus.OK).body(teacherService.findAll());
+    public ResponseEntity<Professor> professoresCreate(ProfessorRequest body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(teacherService.save(body));
     }
 
     @Override
-    public ResponseEntity<Void> professoresIdDelete(Long id) {
+    public ResponseEntity<Void> professoresDelete(Long id) {
         return teacherService.delete(id);
     }
 
     @Override
-    public ResponseEntity<Professor> professoresIdPut(ProfessorRequest body, Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(teacherService.update(id,body));
+    public ResponseEntity<List<Professor>> professoresFindAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(teacherService.findAll());
     }
 
     @Override
-    public ResponseEntity<Professor> professoresPost(ProfessorRequest body) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(teacherService.save(body));
+    public ResponseEntity<Professor> professoresUpdate(ProfessorRequest body, Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(teacherService.update(id,body));
     }
 }
