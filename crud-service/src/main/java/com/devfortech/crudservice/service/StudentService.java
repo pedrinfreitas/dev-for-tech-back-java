@@ -32,7 +32,7 @@ public class StudentService {
             throw new ResourceExistsException("Ja existe um Aluno com este endereço de email");
         }
 
-        StudentEntity entity = new StudentEntity(dto);
+        StudentEntity entity = new StudentEntity(dto);;
         entity.getPessoa().setAddress(addresRepository.save(new AddresEntity(dto.getPessoa().getAddres())));
         entity.setPessoa(pessoaRepository.save(entity.getPessoa()));
         return convertToDTO(studentRepository.save(entity));
@@ -65,18 +65,18 @@ public class StudentService {
         StudentEntity entity = checkById(id);
 
         entity.setFees(dto.getFees());
-        entity.setPessoa(dto.getPessoa());
 
+        entity.getPessoa().setId(id);
+        entity.getPessoa().setName(dto.getPessoa().getName());
+        entity.getPessoa().setPhoneNumber(dto.getPessoa().getPhoneNumber());
+        entity.getPessoa().setEmailAddress(dto.getPessoa().getEmailAddress());
 
-        StudentEntity entity = new StudentEntity(dto);
-        entity.getPessoa().setAddress(addresRepository.save(new AddresEntity(dto.getPessoa().getAddres())));
-        entity.setPessoa(pessoaRepository.save(entity.getPessoa()));
-        return convertToDTO(studentRepository.save(entity));
-
-
-        addresRepository.save(entity.getPessoa().getAddress());
-        pessoaRepository.save(entity.getPessoa());
-
+        entity.getPessoa().getAddress().setId(id);
+        entity.getPessoa().getAddress().setStreet((dto.getPessoa().getAddres().getStreet()));
+        entity.getPessoa().getAddress().setCity((dto.getPessoa().getAddres().getCity()));
+        entity.getPessoa().getAddress().setCountry((dto.getPessoa().getAddres().getCountry()));
+        entity.getPessoa().getAddress().setPostalCode((dto.getPessoa().getAddres().getPostalCode()));
+        entity.getPessoa().getAddress().setState((dto.getPessoa().getAddres().getState()));
 
         return convertToDTO(studentRepository.save(entity));
     }

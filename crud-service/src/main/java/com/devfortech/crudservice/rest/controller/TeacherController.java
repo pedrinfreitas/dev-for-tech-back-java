@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -27,7 +29,7 @@ public class TeacherController {
     private final PagedResourcesAssembler<TeacherDTO> assembler;
 
     @PostMapping
-    public TeacherDTO create(@RequestBody TeacherDTO dto) {
+    public TeacherDTO create(@Valid @RequestBody TeacherDTO dto) {
         TeacherDTO createDto = service.create(dto);
         createDto.add(linkById(createDto.getId()));
         return createDto;

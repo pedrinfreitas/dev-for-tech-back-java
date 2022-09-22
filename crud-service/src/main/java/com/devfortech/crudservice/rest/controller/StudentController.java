@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -28,7 +30,7 @@ public class StudentController {
     private final PagedResourcesAssembler<StudentDTO> assembler;
 
     @PostMapping
-    public StudentDTO create(@RequestBody StudentDTO dto) {
+    public StudentDTO create(@Valid @RequestBody StudentDTO dto) {
         StudentDTO createDto = service.create(dto);
         createDto.add(linkById(createDto.getId()));
         return createDto;
@@ -56,7 +58,7 @@ public class StudentController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable Long id,@RequestBody StudentDTO dto){
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody StudentDTO dto){
         var response = service.update(id,dto);
         response.add(linkById(response.getId()));
         return ResponseEntity.status(HttpStatus.OK).body(response);

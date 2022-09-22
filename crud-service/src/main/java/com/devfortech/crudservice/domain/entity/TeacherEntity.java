@@ -4,6 +4,7 @@ import com.devfortech.crudservice.rest.dto.TeacherDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -22,9 +23,11 @@ public class TeacherEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     @Column(nullable = false)
     private BigDecimal salary;
 
+    @NotNull
     @OneToOne
     private PessoaEntity pessoa;
 

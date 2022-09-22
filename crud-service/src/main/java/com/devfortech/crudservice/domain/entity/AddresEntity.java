@@ -4,6 +4,7 @@ import com.devfortech.crudservice.rest.dto.AddresDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -19,19 +20,23 @@ public class AddresEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull
     @Column(nullable = false)
     private String street;
 
+    @NotNull
     @Column(nullable = false)
     private String city;
 
+    @NotNull
     @Column(nullable = false)
     private String country;
 
+    @NotNull
     @Column(nullable = false)
     private long postalCode;
 
+    @NotNull
     @Column(nullable = false)
     private String state;
 

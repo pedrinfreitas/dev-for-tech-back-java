@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -29,7 +31,7 @@ public class ClassController {
     private final PagedResourcesAssembler<ClassResponseDTO> assembler;
 
     @PostMapping
-    public ClassResponseDTO create(@RequestBody ClassRequestDTO dto) {
+    public ClassResponseDTO create(@Valid @RequestBody ClassRequestDTO dto) {
         return service.create(dto);
     }
 
