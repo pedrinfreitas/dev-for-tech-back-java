@@ -28,9 +28,8 @@ public class User implements UserDetails, Serializable {
 
     @Column(name = "email", unique = true)
     private String email;
-    @Column(name = "username", unique = true)
-    private String username;
-
+    @Column(name = "nome")
+    private String nome;
     @Column(name = "password")
     private String password;
 
@@ -41,7 +40,7 @@ public class User implements UserDetails, Serializable {
 
     public User(SignUpRequest dto) {
         this.email = dto.getEmail();
-        this.username = dto.getUsername();
+        this.nome = dto.getNome();
         this.password = dto.getPassword();
     }
 
@@ -58,7 +57,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public String getUsername(){
-        return username;
+        return email;
     }
 
     @Override

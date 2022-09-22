@@ -6,6 +6,8 @@
 # $ git config --global mergetool.keepBackup false
 *.orig
 
+*/target/**
+
 # Created by git when using merge tools for conflicts
 *.BACKUP.*
 *.BASE.*
@@ -639,5 +641,4 @@ FodyWeavers.xsd
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
-
-# End of https://www.toptal.com/developers/gitignore/api/intellij+all,intellij+iml,java,visualstudio,visualstudiocode,git,windows,linux
+*/target/*

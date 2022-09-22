@@ -32,10 +32,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        if (userRepository.existsByUsername("admin")){
+        if (userRepository.existsByEmail("test@test.com")){
             return;
         }
-
 
         createRoleIfNotFound("ADMIN");
         createRoleIfNotFound("USER");
@@ -47,7 +46,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         userRole.add(roleRepository.findByDescription("USER"));
 
         User admin = new User();
-        admin.setUsername("admin");
+        admin.setNome("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setEmail("test@test.com");
         admin.setRoles(adminRoles);
@@ -58,7 +57,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         userRepository.save(admin);
 
         User user = new User();
-        user.setUsername("user");
+        user.setNome("user");
         user.setPassword(passwordEncoder.encode("user"));
         user.setEmail("test2@test.com");
         user.setRoles(userRole);
@@ -70,14 +69,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    Role createRoleIfNotFound(String name) {
+    void createRoleIfNotFound(String name) {
 
         Role role = roleRepository.findByDescription(name);
         if (role == null) {
             role = new Role(name);
             roleRepository.save(role);
         }
-        return role;
     }
 
 }

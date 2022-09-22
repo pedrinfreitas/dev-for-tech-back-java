@@ -2,7 +2,7 @@ spring:
   application:
     name: email service
   profiles:
-    active: prod
+    active: dev
 
 security:
   jwt:

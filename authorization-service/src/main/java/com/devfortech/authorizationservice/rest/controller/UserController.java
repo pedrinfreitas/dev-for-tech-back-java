@@ -3,32 +3,37 @@ package com.devfortech.authorizationservice.rest.controller;
 import com.devfortech.authorizationservice.domain.entity.User;
 import com.devfortech.authorizationservice.domain.repository.UserRepository;
 import com.devfortech.authorizationservice.exception.ResourceNotFoundException;
+import com.devfortech.authorizationservice.rest.dto.ChangeUserRequest;
+import com.devfortech.authorizationservice.rest.dto.SignUpRequest;
 import com.devfortech.authorizationservice.rest.dto.UserProfile;
+import com.devfortech.authorizationservice.service.AuthService;
+import com.devfortech.authorizationservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.PathParam;
+
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    @GetMapping("/checkUsernameAvailability")
-    public Boolean checkUsernameAvailability(@RequestParam(value = "username") String username) {
-        Boolean isAvailable = !userRepository.existsByUsername(username);
-        return isAvailable;
+    @Autowired
+    private AuthService authService;
+
+    @GetMapping
+    public UserProfile getUserProfile(@RequestParam(value = "email") String email) {
+        return userService.findUser(email);
     }
 
-
-    @GetMapping("/{username}")
-    public UserProfile getUserProfile(@PathVariable(value = "username") String username) {
-        User usuario = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario", "username", username));
-
-           UserProfile userProfile = new UserProfile(usuario.getId(), usuario.getUsername(), usuario.getEmail());
-
-        return userProfile;
+    @PutMapping
+    public ResponseEntity<UserProfile> updateUser(@RequestParam(value = "email") String email, @RequestBody ChangeUserRequest dto) {
+        return new ResponseEntity<>(authService.updateUser(email, dto), OK);
     }
 
 }

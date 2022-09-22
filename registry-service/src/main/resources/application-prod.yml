@@ -13,9 +13,9 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
-    serviceUrl:
-      defaultZone: https://devfortech-school-discovery.azuremicroservices.io/eureka
+    service-url:
+      defaultZone: https://devfortech-school-discovery.azuremicroservices.io:8761/eureka
   instance:
     hostname: devfortech-school-discovery.azuremicroservices.io
-    instance-id: ${eureka.instance.hostname}:${spring.application.name}
+    instance-id: ${eureka.instance.hostname}:${spring.application.name}:8761
   environment: prod

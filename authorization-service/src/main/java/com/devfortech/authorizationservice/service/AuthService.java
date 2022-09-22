@@ -6,14 +6,17 @@ import com.devfortech.authorizationservice.domain.entity.User;
 import com.devfortech.authorizationservice.domain.repository.RoleRepository;
 import com.devfortech.authorizationservice.domain.repository.UserRepository;
 import com.devfortech.authorizationservice.exception.SignupException;
+import com.devfortech.authorizationservice.rest.dto.ChangeUserRequest;
 import com.devfortech.authorizationservice.rest.dto.LoginRequest;
 import com.devfortech.authorizationservice.rest.dto.SignUpRequest;
+import com.devfortech.authorizationservice.rest.dto.UserProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,28 +33,22 @@ public class AuthService {
     private final JwtTokenProvider tokenProvider;
 
     public String login(LoginRequest loginRequest){
-        String username = loginRequest.getUsername();
+        String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
-        var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> {throw new UsernameNotFoundException("User name not found");});
-
-        return  tokenProvider.createToken(user);
+        return  tokenProvider.createToken(getUser(email));
     }
 
 
     public void signup(SignUpRequest req){
-        if(userRepository.existsByUsername(req.getUsername())) {
-            throw new SignupException("Username ja esta em uso!");
-        }
-        if(userRepository.existsByEmail(req.getUsername())) {
-            throw new SignupException("Username ja esta em uso!");
+        if(userRepository.existsByEmail(req.getEmail())) {
+            throw new SignupException("Email ja esta em uso!");
         }
 
         Set<Role> role = new HashSet<>();
-        role.add(roleRepository.findByDescription("USER"));
+        role.add(roleRepository.findByDescription(req.getRole()));
 
         User usuario = new User(req);
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
@@ -63,5 +60,30 @@ public class AuthService {
 
         userRepository.save(usuario);
     }
+
+    @Transactional
+    public UserProfile updateUser(String email, ChangeUserRequest request){
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, request.getOldPassword()));
+
+        User usuario = getUser(email);
+        usuario.setNome(request.getName());
+
+        if (request.getNewEmail() != null && !request.getNewEmail().equals(""))
+            usuario.setEmail(request.getNewEmail());
+
+        if (request.getNewPassword() != null && !request.getNewPassword().equals(""))
+            usuario.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        userRepository.save(usuario);
+
+        return new UserProfile(usuario.getId(), usuario.getNome(), usuario.getEmail());
+    }
+
+
+    private User getUser(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> {  throw new UsernameNotFoundException("User not found");  });
+    }
+
 
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserProfile {
     private Long id;
-    private String username;
+    private String name;
     private String email;
 }
