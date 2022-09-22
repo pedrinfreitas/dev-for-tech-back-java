@@ -40,9 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .headers().frameOptions().sameOrigin()
+                .and()
                 .authorizeRequests()
+                .antMatchers("/h2-console/**")
+                .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }
+
+
 }
