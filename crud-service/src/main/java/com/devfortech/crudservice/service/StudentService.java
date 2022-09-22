@@ -10,6 +10,7 @@ import com.devfortech.crudservice.exception.ResourceExistsException;
 import com.devfortech.crudservice.exception.ResourceNotFoundException;
 import com.devfortech.crudservice.rest.dto.StudentDTO;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class StudentService {
             throw new ResourceExistsException("Ja existe um Aluno com este endereço de email");
         }
 
-        StudentEntity entity = new StudentEntity(dto);;
+        StudentEntity entity = new StudentEntity(dto);
         entity.getPessoa().setAddress(addresRepository.save(new AddresEntity(dto.getPessoa().getAddres())));
         entity.setPessoa(pessoaRepository.save(entity.getPessoa()));
         return convertToDTO(studentRepository.save(entity));
@@ -53,9 +54,31 @@ public class StudentService {
     public void deleteByID(Long id){
         try {
             studentRepository.delete(checkById(id));
+            pessoaRepository.deleteById(id);
+            addresRepository.deleteById(id);
         }catch(DataIntegrityViolationException e) {
             throw new DatabaseException("Integrity violation");
         }
+    }
+    @Transactional
+    public StudentDTO update(Long id,StudentDTO dto) {
+        StudentEntity entity = checkById(id);
+
+        entity.setFees(dto.getFees());
+        entity.setPessoa(dto.getPessoa());
+
+
+        StudentEntity entity = new StudentEntity(dto);
+        entity.getPessoa().setAddress(addresRepository.save(new AddresEntity(dto.getPessoa().getAddres())));
+        entity.setPessoa(pessoaRepository.save(entity.getPessoa()));
+        return convertToDTO(studentRepository.save(entity));
+
+
+        addresRepository.save(entity.getPessoa().getAddress());
+        pessoaRepository.save(entity.getPessoa());
+
+
+        return convertToDTO(studentRepository.save(entity));
     }
 
     private StudentEntity checkById(Long id){
