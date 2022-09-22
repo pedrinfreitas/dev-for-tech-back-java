@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/grade")
@@ -18,7 +20,7 @@ public class GradeController {
     private final GradeService service;
 
     @PostMapping
-    public GradeDTO create(@RequestBody GradeDTO dto) {
+    public GradeDTO create( @Valid @RequestBody GradeDTO dto) {
         GradeDTO createDto = service.create(dto);
         return createDto;
     }

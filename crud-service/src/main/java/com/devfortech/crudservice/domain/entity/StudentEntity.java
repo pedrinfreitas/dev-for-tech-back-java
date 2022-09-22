@@ -4,6 +4,7 @@ import com.devfortech.crudservice.rest.dto.StudentDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -24,21 +25,18 @@ public class StudentEntity implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Column(nullable = false)
     private BigDecimal fees;
 
-    @ManyToOne
-    private ClassEntity classe;
-
+    @NotNull
     @OneToOne
     private PessoaEntity pessoa;
 
-    private boolean createUser;
 
     public StudentEntity(StudentDTO dto) {
         this.id = dto.getId();
         this.fees = dto.getFees();
         this.pessoa = new PessoaEntity(dto.getPessoa());
-        this.createUser = dto.isCreateUser();
     }
 }

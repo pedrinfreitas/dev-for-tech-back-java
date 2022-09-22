@@ -1,11 +1,11 @@
 package com.devfortech.crudservice.domain.entity;
 
 import com.devfortech.crudservice.rest.dto.PessoaDTO;
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -39,7 +39,6 @@ public class PessoaEntity implements Serializable {
     @OneToOne
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddresEntity address;
-
 
     public PessoaEntity(PessoaDTO dto) {
         this.id = dto.getId();

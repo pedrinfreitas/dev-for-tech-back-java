@@ -4,7 +4,9 @@ package com.devfortech.crudservice.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -22,13 +24,17 @@ public class ClassEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    private Set<GradeEntity> grades;;
+    @NotNull
+    @ManyToMany(targetEntity=GradeEntity.class,cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private Set<GradeEntity> grades = new HashSet<>();;
 
-    @OneToMany
-    @JoinColumn
-    private Set<StudentEntity> students;
+    @NotNull
+    @OneToMany(targetEntity=StudentEntity.class,cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private Set<StudentEntity> students = new HashSet<>();
 
+    @NotNull
     @OneToOne
     private TeacherEntity teacher;
 
