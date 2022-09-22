@@ -64,6 +64,13 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<?> update(@PathVariable Long id,@RequestBody StudentDTO dto){
+        var response = service.update(id,dto);
+        response.add(linkById(response.getId()));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     private Link linkById(Long id){
         return linkTo(methodOn(StudentController.class).findById(id)).withSelfRel();
     }
