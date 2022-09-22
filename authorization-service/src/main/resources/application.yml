@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: test
+  application:
+    name: authorization
+
+security:
+  jwt:
+    token:
+      secret-key: ZGV2Zm9ydGVjaA==
+      expire-length: 60480000
+
+auth:
+  rabbitmq:
+    queue: auth.queue
+    exchange: auth.exchange
