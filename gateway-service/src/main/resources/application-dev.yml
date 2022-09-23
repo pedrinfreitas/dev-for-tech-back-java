@@ -19,3 +19,5 @@ logging:
 app:
   authorization:
     url: http://localhost:8081
+  crud:
+    url: http://localhost:8085

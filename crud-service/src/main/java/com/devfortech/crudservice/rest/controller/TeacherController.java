@@ -48,10 +48,16 @@ public class TeacherController {
         return new ResponseEntity<>(pagedModel, HttpStatus.OK);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<TeacherDTO> update(@RequestBody TeacherDTO dto, @PathVariable Long id){
+        TeacherDTO newDto = service.updateByID(id, dto);
+        return new ResponseEntity<>(newDto, HttpStatus.OK);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         service.deleteByID(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     private Link linkById(Long id){

@@ -32,40 +32,55 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        if (userRepository.existsByEmail("test@test.com")){
+        if (userRepository.existsByEmail("admin@devfortech.com")){
             return;
         }
 
         createRoleIfNotFound("ADMIN");
-        createRoleIfNotFound("USER");
+        createRoleIfNotFound("STUDENT");
+        createRoleIfNotFound("TEACHER");
 
-        Set<Role> adminRoles = new HashSet<>();
-        adminRoles.add(roleRepository.findByDescription("ADMIN"));
+        Set<Role> adminRole = new HashSet<>();
+        adminRole.add(roleRepository.findByDescription("ADMIN"));
 
-        Set<Role> userRole = new HashSet<>();
-        userRole.add(roleRepository.findByDescription("USER"));
+        Set<Role> studentRole = new HashSet<>();
+        studentRole.add(roleRepository.findByDescription("STUDENT"));
+
+        Set<Role> teacherRole = new HashSet<>();
+        teacherRole.add(roleRepository.findByDescription("TEACHER"));
+
 
         User admin = new User();
         admin.setNome("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
-        admin.setEmail("test@test.com");
-        admin.setRoles(adminRoles);
+        admin.setEmail("admin@devfortech.com");
+        admin.setRoles(adminRole);
         admin.setEnabled(true);
         admin.setCredentialsNonExpired(true);
         admin.setAccountNonExpired(true);
         admin.setAccountNonLocked(true);
         userRepository.save(admin);
+        User student = new User();
+        student.setNome("student");
+        student.setPassword(passwordEncoder.encode("student"));
+        student.setEmail("student@devfortech.com");
+        student.setRoles(studentRole);
+        student.setEnabled(true);
+        student.setCredentialsNonExpired(true);
+        student.setAccountNonExpired(true);
+        student.setAccountNonLocked(true);
+        userRepository.save(student);
 
-        User user = new User();
-        user.setNome("user");
-        user.setPassword(passwordEncoder.encode("user"));
-        user.setEmail("test2@test.com");
-        user.setRoles(userRole);
-        user.setEnabled(true);
-        user.setCredentialsNonExpired(true);
-        user.setAccountNonExpired(true);
-        user.setAccountNonLocked(true);
-        userRepository.save(user);
+        User teacher = new User();
+        teacher.setNome("teacher");
+        teacher.setPassword(passwordEncoder.encode("teacher"));
+        teacher.setEmail("teacher@devfortech.com");
+        teacher.setRoles(teacherRole);
+        teacher.setEnabled(true);
+        teacher.setCredentialsNonExpired(true);
+        teacher.setAccountNonExpired(true);
+        teacher.setAccountNonLocked(true);
+        userRepository.save(teacher);
     }
 
     @Transactional

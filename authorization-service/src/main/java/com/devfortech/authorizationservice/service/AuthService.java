@@ -5,12 +5,16 @@ import com.devfortech.authorizationservice.domain.entity.Role;
 import com.devfortech.authorizationservice.domain.entity.User;
 import com.devfortech.authorizationservice.domain.repository.RoleRepository;
 import com.devfortech.authorizationservice.domain.repository.UserRepository;
+import com.devfortech.authorizationservice.exception.DatabaseException;
 import com.devfortech.authorizationservice.exception.SignupException;
 import com.devfortech.authorizationservice.rest.dto.ChangeUserRequest;
 import com.devfortech.authorizationservice.rest.dto.LoginRequest;
 import com.devfortech.authorizationservice.rest.dto.SignUpRequest;
 import com.devfortech.authorizationservice.rest.dto.UserProfile;
+import com.devfortech.authorizationservice.rest.message.EmailSendMessage;
+import com.devfortech.authorizationservice.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,10 +31,10 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider tokenProvider;
+    private final EmailSendMessage emailSendMessage;
 
     public String login(LoginRequest loginRequest){
         String email = loginRequest.getEmail();
@@ -41,7 +45,7 @@ public class AuthService {
         return  tokenProvider.createToken(getUser(email));
     }
 
-
+    @Transactional
     public void signup(SignUpRequest req){
         if(userRepository.existsByEmail(req.getEmail())) {
             throw new SignupException("Email ja esta em uso!");
@@ -51,14 +55,22 @@ public class AuthService {
         role.add(roleRepository.findByDescription(req.getRole()));
 
         User usuario = new User(req);
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        String password = PasswordUtils.getPassword(10);
+
+        if (req.getPassword() == null) {
+            usuario.setPassword(passwordEncoder.encode(password));
+        }
+        else
+            usuario.setPassword(passwordEncoder.encode(req.getPassword()));
+
         usuario.setAccountNonExpired(true);
         usuario.setAccountNonLocked(true);
         usuario.setCredentialsNonExpired(true);
         usuario.setEnabled(true);
         usuario.setRoles(role);
+        User newUser = userRepository.save(usuario);
 
-        userRepository.save(usuario);
+        emailSendMessage.sendEmailSignup(newUser, password);
     }
 
     @Transactional
@@ -77,6 +89,17 @@ public class AuthService {
         userRepository.save(usuario);
 
         return new UserProfile(usuario.getId(), usuario.getNome(), usuario.getEmail());
+    }
+
+
+    @Transactional
+    public void delete(String email){
+        try {
+            User entity = getUser(email);
+            userRepository.delete(entity);
+        }catch(DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation");
+        }
     }
 
 

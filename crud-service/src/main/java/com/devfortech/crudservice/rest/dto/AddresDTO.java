@@ -17,7 +17,7 @@ public class AddresDTO implements Serializable {
     private String street;
     private String city;
     private String country;
-    private long postalCode;
+    private String postalCode;
     private String state;
 
     public AddresDTO(AddresEntity entity){

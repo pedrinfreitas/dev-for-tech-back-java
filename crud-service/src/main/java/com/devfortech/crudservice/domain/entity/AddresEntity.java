@@ -30,7 +30,7 @@ public class AddresEntity implements Serializable {
     private String country;
 
     @Column(nullable = false)
-    private long postalCode;
+    private String postalCode;
 
     @Column(nullable = false)
     private String state;

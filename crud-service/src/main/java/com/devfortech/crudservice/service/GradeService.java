@@ -7,6 +7,7 @@ import com.devfortech.crudservice.exception.ResourceExistsException;
 import com.devfortech.crudservice.exception.ResourceNotFoundException;
 import com.devfortech.crudservice.rest.dto.GradeDTO;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,15 @@ public class GradeService {
     public Page<GradeDTO> findAll(Pageable pageable){
         Page<GradeEntity> entity = gradeRepository.findAll(pageable);
         return entity.map(this::convertToDTO);
+    }
+
+    @Transactional
+    public GradeDTO updateByID(Long id, GradeDTO dto){
+        GradeEntity entity = checkById(id);
+        BeanUtils.copyProperties(dto, entity);
+        entity.setId(id);
+        gradeRepository.save(entity);
+        return new GradeDTO(entity);
     }
 
     @Transactional

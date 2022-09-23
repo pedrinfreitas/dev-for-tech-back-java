@@ -1,31 +1,15 @@
+server:
+  servlet:
+    context-path: /crud
+
+spring:
+  profiles:
+    active: prod
+
 security:
   jwt:
     token:
       secret-key: ZGV2Zm9ydGVjaA==
 
-server:
-  port: 8085
-  servlet:
-    context-path: /crud
 
-spring:
-  application:
-    name: crud
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-  jmx:
-    enabled: false
-  datasource:
-    url: jdbc:mysql://localhost:3306/crud?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
-    username: sa
-    password: 9202157
-  rabbitmq:
-    host: 15.228.251.248
-    port: 5672
-    username: user
-    password: TVhuUhi2Kkoe
+

@@ -48,10 +48,16 @@ public class ClassController {
         return dto;
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<ClassResponseDTO> update(@RequestBody ClassRequestDTO dto, @PathVariable Long id){
+        ClassResponseDTO newDto = service.updateByID(id, dto);
+        return new ResponseEntity<>(newDto, HttpStatus.OK);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         service.deleteByID(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

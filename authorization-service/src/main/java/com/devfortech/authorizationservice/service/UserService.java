@@ -2,16 +2,11 @@ package com.devfortech.authorizationservice.service;
 
 import com.devfortech.authorizationservice.domain.entity.User;
 import com.devfortech.authorizationservice.domain.repository.UserRepository;
-import com.devfortech.authorizationservice.exception.ResourceNotFoundException;
-import com.devfortech.authorizationservice.rest.dto.ChangeUserRequest;
 import com.devfortech.authorizationservice.rest.dto.UserProfile;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
