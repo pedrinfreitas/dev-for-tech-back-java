@@ -1,5 +1,4 @@
-package com.devfortech.emailservice.config;
-
+package com.devfortech.crudservice.config;
 
 import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.core.ExchangeBuilder;
@@ -9,19 +8,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${spring.rabbitmq.email.exchange}")
-    private String exchange;
+    @Value("${spring.rabbitmq.auth.exchange}")
+    private String emailExchange;
 
     @Bean
-    public Exchange declareExchange(){
-        return ExchangeBuilder.directExchange(exchange).durable(true).build();
+    public Exchange declareEmailExchange(){
+        return ExchangeBuilder.directExchange( emailExchange ).durable(true).build();
     }
 
     @Bean
     public MessageConverter jsonMessageConverter(){
         return new Jackson2JsonMessageConverter();
     }
+
 }

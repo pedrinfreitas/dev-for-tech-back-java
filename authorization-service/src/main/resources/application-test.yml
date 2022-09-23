@@ -9,6 +9,15 @@ spring:
     port: 5672
     username: user
     password: TVhuUhi2Kkoe
+    email:
+      exchange: email.exchange
+      routingkey: email.send.key
+      queue: email.send.queue
+    auth:
+      exchange: auth.exchange
+      routingkey: auth.key
+      queue: auth.queue
+
   h2:
     console:
       enabled: true
@@ -40,3 +49,5 @@ eureka:
     fetch-registry: true
   instance:
     hostname: localhost
+
+

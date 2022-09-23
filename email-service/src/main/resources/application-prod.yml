@@ -2,19 +2,24 @@ server:
   port: 8100
 
 spring:
-  application:
-    name: email service
-
   rabbitmq:
     host: 15.228.251.248
     port: 5672
     username: user
     password: TVhuUhi2Kkoe
+    email:
+      exchange: email.exchange
+      routingkey: email.send.key
+      queue: email.send.queue
+    auth:
+      exchange: auth.exchange
+      routingkey: auth.key
+      queue: auth.queue
 
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -30,21 +35,20 @@ spring:
   mail:
     host: smtp-relay.sendinblue.com
     port: 587
-    username: devfortechschool@gmail.com
-    password: dMUE296stOwVBxKn
-    protocol: smtp
-
+    username: jeferson.black.santos@gmail.com
+    password: bpGrW2O3d7cQXS90
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 eureka:
   client:
     service-url:
-      defaultZone: https://devfortech-school-discovery.azuremicroservices.io/eureka
+      defaultZone: https://devfortech-discovery-discovery.azuremicroservices.io/eureka
     fetch-registry: true
   instance:
-    hostname: devfortech-school-authorization-service.azuremicroservices.io
+    hostname: devfortech-school-email-service.azuremicroservices.io
     instance-id: ${eureka.instance.hostname}:${spring.application.name}:8761
-
-email:
-  rabbitmq:
-    exchange: email.exchange
-    queue: email.send.queue
