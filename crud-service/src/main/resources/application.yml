@@ -11,5 +11,3 @@ security:
     token:
       secret-key: ZGV2Zm9ydGVjaA==
 
-
-

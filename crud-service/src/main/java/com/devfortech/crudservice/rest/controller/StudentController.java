@@ -30,7 +30,7 @@ public class StudentController {
     private final PagedResourcesAssembler<StudentDTO> assembler;
 
     @PostMapping
-    public StudentDTO create(@RequestBody StudentDTO dto) {
+    public StudentDTO create(@Valid @RequestBody StudentDTO dto) {
         StudentDTO createDto = service.create(dto);
         createDto.add(linkById(createDto.getId()));
         return createDto;

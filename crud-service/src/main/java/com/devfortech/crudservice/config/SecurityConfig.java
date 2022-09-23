@@ -38,17 +38,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .cors()
+                    .cors()
                 .and()
-                .headers().frameOptions().sameOrigin()
+                    .headers().frameOptions().sameOrigin()
                 .and()
-                .authorizeRequests()
-                .antMatchers("/h2-console/**")
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
+                    .authorizeRequests()
+                        .antMatchers("/h2-console/**")
+                            .permitAll()
+                        .anyRequest().authenticated()
+                    .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }
+
+
 }

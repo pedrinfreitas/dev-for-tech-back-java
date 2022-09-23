@@ -100,9 +100,12 @@ public class StudentService {
         try {
             StudentEntity entity = checkById(id);
             studentRepository.delete(entity);
+            pessoaRepository.deleteById(id);
+            addresRepository.deleteById(id);
 
             if (entity.isCreateUser())
                 authSendMessage.sendMessageDeleteUser(entity.getPessoa().getEmailAddress());
+
         }catch(DataIntegrityViolationException e) {
             throw new DatabaseException("Integrity violation");
         }
