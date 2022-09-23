@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -23,13 +22,12 @@ public class ClassEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(targetEntity=GradeEntity.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private Set<GradeEntity> grades = new HashSet<>();;
+    @ManyToMany
+    private Set<GradeEntity> grades;;
 
-    @OneToMany(targetEntity=StudentEntity.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private Set<StudentEntity> students = new HashSet<>();
+    @OneToMany
+    @JoinColumn
+    private Set<StudentEntity> students;
 
     @OneToOne
     private TeacherEntity teacher;

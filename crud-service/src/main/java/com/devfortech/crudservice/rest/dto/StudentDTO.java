@@ -19,12 +19,16 @@ public class StudentDTO extends RepresentationModel<StudentDTO>  implements Seri
     private Long id;
     private BigDecimal fees;
     private PessoaDTO pessoa;
-    private ClassRequestDTO classe;
 
-    public StudentDTO(StudentEntity entity) {
+    private Long classeID;
+
+    private boolean createUser;
+
+    public StudentDTO(StudentEntity entity, Long classeID) {
         this.id = entity.getId();
         this.fees = entity.getFees();
         this.pessoa = new PessoaDTO(entity.getPessoa());
-        this.classe = null;
+        this.classeID = classeID;
+        this.createUser = entity.isCreateUser();
     }
 }

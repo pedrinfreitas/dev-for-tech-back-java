@@ -27,13 +27,18 @@ public class StudentEntity implements Serializable {
     @Column(nullable = false)
     private BigDecimal fees;
 
+    @ManyToOne
+    private ClassEntity classe;
+
     @OneToOne
     private PessoaEntity pessoa;
 
+    private boolean createUser;
 
     public StudentEntity(StudentDTO dto) {
         this.id = dto.getId();
         this.fees = dto.getFees();
         this.pessoa = new PessoaEntity(dto.getPessoa());
+        this.createUser = dto.isCreateUser();
     }
 }

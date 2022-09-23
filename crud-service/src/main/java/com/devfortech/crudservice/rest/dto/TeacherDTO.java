@@ -19,11 +19,13 @@ public class TeacherDTO extends RepresentationModel<TeacherDTO> implements Seria
     private Long id;
     private BigDecimal salary;
     private PessoaDTO pessoa;
+    private boolean createUser;
 
     public TeacherDTO(TeacherEntity entity) {
         this.id = entity.getId();
         this.salary = entity.getSalary();
         this.pessoa = new PessoaDTO(entity.getPessoa());
+        this.createUser = entity.isCreateUser();
     }
 
 }

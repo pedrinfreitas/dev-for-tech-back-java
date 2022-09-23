@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -38,17 +37,17 @@ public class User implements UserDetails, Serializable {
     private Boolean credentialsNonExpired;
     private Boolean enabled;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = { @JoinColumn(name = "id_user")},
+            inverseJoinColumns = { @JoinColumn(name = "id_roles")})
+    private Set<Role> roles;
+
     public User(SignUpRequest dto) {
         this.email = dto.getEmail();
         this.nome = dto.getNome();
         this.password = dto.getPassword();
     }
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-            joinColumns = { @JoinColumn(name = "id_user")},
-            inverseJoinColumns = { @JoinColumn(name = "id_roles")})
-    private Set<Role> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

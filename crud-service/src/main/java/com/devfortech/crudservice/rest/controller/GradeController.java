@@ -28,10 +28,16 @@ public class GradeController {
         return new ResponseEntity<>(service.findAll(pageable), HttpStatus.OK);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<GradeDTO> update(@RequestBody GradeDTO dto, @PathVariable Long id){
+        GradeDTO newDto = service.updateByID(id, dto);
+        return new ResponseEntity<>(newDto, HttpStatus.OK);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         service.deleteByID(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

@@ -14,6 +14,7 @@ import com.devfortech.crudservice.rest.dto.ClassResponseDTO;
 import com.devfortech.crudservice.rest.dto.GradeDTO;
 import com.devfortech.crudservice.rest.dto.TeacherDTO;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,6 +52,14 @@ public class ClassService {
     @Transactional(readOnly = true)
     public ClassResponseDTO findByID(Long id){
         ClassEntity entity = checkById(id);
+        return mapEntityToResponseDTO(entity);
+    }
+    @Transactional
+    public ClassResponseDTO updateByID(Long id, ClassRequestDTO dto){
+        ClassEntity entity = checkById(id);
+        BeanUtils.copyProperties(mapRequestToEntity(dto), entity);
+        entity.setId(id);
+        classRepository.save(entity);
         return mapEntityToResponseDTO(entity);
     }
 
@@ -99,6 +108,7 @@ public class ClassService {
         entity.getGrades().forEach(x -> grades.add(new GradeDTO(gradeRepository.findByDescricao(x.getDescricao())
                 .orElseThrow(() -> new ResourceNotFoundException("Grade "+ x +" nao cadastrada")))));
 
+        classe.setId(entity.getId());
         classe.setGrades(grades);
         classe.setStudents(alunos);
         classe.setTeacher(new TeacherDTO(entity.getTeacher()));

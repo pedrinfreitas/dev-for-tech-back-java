@@ -12,11 +12,16 @@ public class GatewatConfig {
     @Value("${app.authorization.url}")
     private String authorization;
 
+    @Value("${app.crud.url}")
+    private String crud;
+
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("authorization", r -> r.path("/auth/**")
                         .uri(authorization))
+                .route("crud", r -> r.path("/crud/**")
+                        .uri(crud))
                 .build();
     }
 
