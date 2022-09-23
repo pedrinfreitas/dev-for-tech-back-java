@@ -1,22 +1,17 @@
 server:
-  port: 8081
-  servlet:
-    context-path: /auth
+  port: 8085
 
 spring:
   rabbitmq:
-    host: 15.228.251.248
+    host: localhost
     port: 5672
     username: user
     password: TVhuUhi2Kkoe
-    email:
-      exchange: email.exchange
-      routingkey: email.send.key
-      queue: email.send.queue
     auth:
       exchange: auth.exchange
       routingkey: auth.key
       queue: auth.queue
+
   jpa:
     show-sql: false
     hibernate:
@@ -29,7 +24,7 @@ spring:
     enabled: false
 
   datasource:
-    url: jdbc:mysql://localhost:3306/auth?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/crud?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
     username: sa
     password: 9202157
 
@@ -40,7 +35,6 @@ eureka:
     fetch-registry: true
   instance:
     hostname: localhost
-
 
 logging:
   level:

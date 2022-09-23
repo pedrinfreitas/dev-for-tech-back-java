@@ -1,0 +1,47 @@
+server:
+  port: 8100
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  main:
+    allow-circular-references: true
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true
+
+  jmx:
+    enabled: false
+
+  datasource:
+      url: jdbc:h2:mem:testdb
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+
+  rabbitmq:
+    host: 15.228.251.248
+    port: 5672
+    username: user
+    password: TVhuUhi2Kkoe
+    auth:
+      exchange: auth.exchange
+      routingkey: auth.key
+      queue: auth.queue
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+  instance:
+    hostname: localhost
